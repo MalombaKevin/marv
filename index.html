@@ -179,16 +179,23 @@
             border-radius: 20px;
             border: 1px solid rgba(139, 92, 246, 0.2);
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .map-dot {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             cursor: pointer;
             transform: translate(-50%, -50%);
             transition: all 0.3s ease;
+            animation: map-blink 1s infinite alternate;
+        }
+
+        @keyframes map-blink {
+            from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            to { opacity: 0.3; transform: translate(-50%, -50%) scale(1.3); }
         }
 
         .map-dot::after {
@@ -213,6 +220,22 @@
                 linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
             background-size: 20px 20px;
+        }
+
+        #map-overlay-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.8);
+            color: #8b5cf6;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            z-index: 20;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
@@ -290,32 +313,112 @@
                         </div>
                     </div>
 
-                    <!-- OTHER APPS PRESERVED -->
-                    <div id="tool-religion" class="tool-view hidden max-w-xl mx-auto text-center">
-                        <h2 class="text-2xl font-black text-amber-500 mb-4">Sacred Scrolls</h2>
-                        <div class="bg-black/40 p-8 rounded-3xl italic text-lg">"The hardest choices require the strongest wills."</div>
-                    </div>
-
-                    <div id="tool-music" class="tool-view hidden max-w-xl mx-auto">
-                        <div class="bg-gradient-to-b from-pink-900/40 to-black/40 p-6 rounded-3xl border border-pink-500/20 text-center">
-                            <i class="fas fa-compact-disc text-6xl text-pink-500 animate-spin-slow mb-4"></i>
-                            <h3 class="text-xl font-bold">Awesome Mix Vol. 2</h3>
+                    <!-- RELIGION APP -->
+                    <div id="tool-religion" class="tool-view hidden max-w-xl mx-auto text-center h-full flex flex-col justify-center">
+                        <div class="bg-amber-500/10 border border-amber-500/30 p-8 rounded-[3rem] shadow-xl">
+                            <h2 class="text-2xl font-black text-amber-500 mb-4">Sacred Scrolls</h2>
+                            <div class="italic text-lg text-white">"The hardest choices require the strongest wills."</div>
                         </div>
                     </div>
 
-                    <div id="tool-calc" class="tool-view hidden h-full flex flex-col items-center justify-center">
-                        <div id="calc-screen" class="w-full bg-black/30 p-6 rounded-2xl text-right text-4xl font-mono mb-4">0</div>
+                    <!-- MUSIC APP -->
+                    <div id="tool-music" class="tool-view hidden max-w-xl mx-auto h-full flex flex-col justify-center">
+                        <div class="bg-gradient-to-b from-pink-900/40 to-black/40 p-8 rounded-[3rem] border border-pink-500/20 text-center shadow-xl">
+                            <i class="fas fa-compact-disc text-6xl text-pink-500 animate-spin-slow mb-6"></i>
+                            <h3 class="text-xl font-bold text-white">Awesome Mix Vol. 2</h3>
+                            <p class="text-slate-400 text-sm mt-2">Streaming from Sovereign Starship</p>
+                        </div>
                     </div>
+
+                    <!-- MOVIES APP -->
+                    <div id="tool-movies" class="tool-view hidden max-w-xl mx-auto h-full flex flex-col justify-center">
+                        <div class="bg-red-500/10 border border-red-500/30 p-8 rounded-[3rem] shadow-xl text-center">
+                            <i class="fas fa-video text-4xl text-red-500 mb-4"></i>
+                            <h2 class="text-2xl font-black text-white mb-2">Titan Cinema</h2>
+                            <p class="text-slate-400">Archiving all historical civilizations...</p>
+                        </div>
+                    </div>
+
+                    <!-- SPORTS APP -->
+                    <div id="tool-sports" class="tool-view hidden max-w-xl mx-auto h-full flex flex-col justify-center">
+                        <div class="bg-green-500/10 border border-green-500/30 p-8 rounded-[3rem] shadow-xl text-center">
+                            <i class="fas fa-trophy text-4xl text-green-500 mb-4"></i>
+                            <h2 class="text-2xl font-black text-white mb-2">Galactic Games</h2>
+                            <p class="text-slate-400">Current Event: Survival of the Fittest</p>
+                        </div>
+                    </div>
+
+                    <!-- RECIPES APP -->
+                    <div id="tool-recipe" class="tool-view hidden max-w-xl mx-auto h-full flex flex-col justify-center">
+                        <div class="bg-emerald-500/10 border border-emerald-500/30 p-8 rounded-[3rem] shadow-xl text-center">
+                            <i class="fas fa-utensils text-4xl text-emerald-500 mb-4"></i>
+                            <h2 class="text-2xl font-black text-white mb-2">Garden Recipes</h2>
+                            <p class="text-slate-400 italic">Perfectly balanced nutrients for a grateful universe.</p>
+                        </div>
+                    </div>
+
+                    <!-- GAMES APP -->
+                    <div id="tool-games" class="tool-view hidden max-w-xl mx-auto h-full flex flex-col justify-center">
+                        <div class="bg-blue-500/10 border border-blue-500/30 p-8 rounded-[3rem] shadow-xl text-center">
+                            <i class="fas fa-chess-knight text-4xl text-blue-500 mb-4"></i>
+                            <h2 class="text-2xl font-black text-white mb-2">Strategy Room</h2>
+                            <p class="text-slate-400">Simulating end-game scenarios...</p>
+                        </div>
+                    </div>
+
+                    <!-- CALC APP -->
+                    <div id="tool-calc" class="tool-view hidden h-full flex flex-col items-center justify-center">
+                        <div class="bg-slate-800/50 p-6 rounded-[2rem] border border-white/10 shadow-2xl w-full max-w-xs">
+                             <div id="calc-screen" class="w-full bg-black/30 p-6 rounded-2xl text-right text-4xl font-mono mb-4 text-purple-400 border border-white/5 overflow-hidden">0</div>
+                             <div class="grid grid-cols-4 gap-2">
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">7</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">8</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">9</button>
+                                <button class="bg-purple-600/20 p-4 rounded-xl font-bold text-purple-400">/</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">4</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">5</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">6</button>
+                                <button class="bg-purple-600/20 p-4 rounded-xl font-bold text-purple-400">*</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">1</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">2</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">3</button>
+                                <button class="bg-purple-600/20 p-4 rounded-xl font-bold text-purple-400">-</button>
+                                <button class="bg-red-500/20 p-4 rounded-xl font-bold text-red-400">C</button>
+                                <button class="bg-white/5 p-4 rounded-xl font-bold">0</button>
+                                <button class="bg-purple-600 p-4 rounded-xl font-bold text-white">=</button>
+                                <button class="bg-purple-600/20 p-4 rounded-xl font-bold text-purple-400">+</button>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- ALERTS APP -->
+                    <div id="tool-alarm" class="tool-view hidden max-w-xl mx-auto h-full flex flex-col justify-center">
+                        <div class="bg-indigo-500/10 border border-indigo-500/30 p-8 rounded-[3rem] shadow-xl text-center">
+                            <i class="fas fa-radiation text-4xl text-indigo-500 animate-pulse mb-4"></i>
+                            <h2 class="text-2xl font-black text-white mb-2">Infinity Alerts</h2>
+                            <p class="text-slate-400">Monitoring cosmic energy surges...</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
             <div class="titan-side">
-                <div class="p-4 border-b border-white/5"><h3 class="text-[9px] font-black text-purple-400 uppercase tracking-[0.4em]">Titan Finder</h3></div>
+                <div class="p-4 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-[9px] font-black text-purple-400 uppercase tracking-[0.4em]">Titan Finder</h3>
+                    <i class="fas fa-radar text-[10px] text-purple-500 animate-pulse"></i>
+                </div>
                 
-                <!-- New Interactive Map -->
+                <!-- Interactive Map -->
                 <div class="map-container">
                     <div class="map-grid"></div>
+                    <div id="map-overlay-text">Thanopin activated</div>
                     <div id="map-dots"></div>
+                </div>
+
+                <!-- People Nearby List -->
+                <div class="px-4 py-2 bg-purple-600/10 border-y border-white/5">
+                    <h4 class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">People Nearby</h4>
                 </div>
 
                 <div class="flex-1 overflow-y-auto no-scrollbar p-3 space-y-2" id="finder-list"></div>
@@ -345,8 +448,17 @@
         window.onload = () => {
             setTimeout(() => {
                 document.getElementById('loading-screen').style.opacity = '0';
-                setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 1000);
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    // Thanopin Activation Sequence
+                    setTimeout(() => {
+                        const overlay = document.getElementById('map-overlay-text');
+                        if (overlay) overlay.style.opacity = '0';
+                        setTimeout(() => { if(overlay) overlay.style.display = 'none'; }, 500);
+                    }, 2000);
+                }, 1000);
             }, 1500);
+
             updateClock();
             setInterval(updateClock, 1000);
             renderFinder();
@@ -357,22 +469,23 @@
 
         function renderMap() {
             const mapContainer = document.getElementById('map-dots');
-            mapContainer.innerHTML = people.map(p => `
+            mapContainer.innerHTML = people.map((p, idx) => `
                 <div class="map-dot" 
                      onclick="openInvite('${p.name}')" 
-                     style="left: ${p.x}%; top: ${p.y}%; background: ${p.color}; box-shadow: 0 0 10px ${p.color}">
+                     style="left: ${p.x}%; top: ${p.y}%; background: ${p.color}; box-shadow: 0 0 10px ${p.color}; animation-delay: ${idx * 0.2}s">
                 </div>
             `).join('');
         }
 
         function renderFinder() {
             document.getElementById('finder-list').innerHTML = people.map(p => `
-                <div onclick="openInvite('${p.name}')" class="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-transparent hover:border-purple-500/30 transition-all cursor-pointer">
-                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-[10px] text-purple-400 font-bold" style="border-left: 2px solid ${p.color}">${p.name[0]}</div>
+                <div onclick="openInvite('${p.name}')" class="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-transparent hover:border-purple-500/30 transition-all cursor-pointer group">
+                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-[10px] text-purple-400 font-bold group-hover:scale-110 transition-transform" style="border-left: 2px solid ${p.color}">${p.name[0]}</div>
                     <div class="flex-1">
                         <div class="text-[10px] font-black">${p.name}</div>
                         <div class="text-[8px] text-slate-500 uppercase">${p.planet}</div>
                     </div>
+                    <div class="w-1.5 h-1.5 rounded-full animate-pulse" style="background: ${p.color}"></div>
                 </div>
             `).join('');
         }
